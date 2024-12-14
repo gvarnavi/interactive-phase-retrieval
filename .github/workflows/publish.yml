@@ -19,11 +19,16 @@ jobs:
           node-version: 20
           cache: "npm"
 
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
         
       - name: Install marimo
-        run: pip install marimo numpy matplotlib
+        run: pip install marimo numpy matplotlib colorspacious
         
       - name: Build
         run: npm run build
