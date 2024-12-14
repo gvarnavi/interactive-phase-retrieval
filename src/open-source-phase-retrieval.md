@@ -148,7 +148,7 @@ ptycho = py4DSTEM.process.phase.SingleslicePtychography(
 </div>
   
 <div class="img-container" style="min-height:330px;">
-    Tobacoco mosaic virus (iterative ptychography)
+    Tobacco mosaic virus (iterative ptychography)
     ${resize((width, height)=> return_resized_img(img_TMV,width,height-16,img_style))}
 </div>
 
