@@ -1,0 +1,42 @@
+@import url("observablehq:default.css");
+@import url("observablehq:theme-near-midnight.css");
+@import url("observablehq:theme-alt.css");
+@import url("observablehq:theme-wide.css");
+
+:root {
+  --theme-foreground-focus: #fed9a6;
+}
+
+#observablehq-footer {
+  margin: 1rem auto;
+}
+
+#observablehq-footer nav {
+  max-width: none;
+}
+
+.observablehq p,
+code,
+ol,
+ul,
+li {
+  max-width: none;
+}
+
+#observablehq-main span {
+  max-width: none;
+}
+
+#marimo-island img {
+  max-width: 100%;
+}
+
+#py4dstem-container img {
+  max-width: 100%;
+}
+
+h1,
+h2 {
+  color: var(--theme-foreground-focus);
+  max-width: none;
+}
