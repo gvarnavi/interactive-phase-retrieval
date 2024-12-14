@@ -28,7 +28,7 @@ jobs:
         run: yarn install --frozen-lockfile
         
       - name: Install marimo
-        run: pip install marimo numpy matplotlib colorspacious
+        run: pip install marimo==0.8.2 numpy matplotlib colorspacious
         
       - name: Build
         run: npm run build
