@@ -31,7 +31,7 @@ let potential = nj.zeros([7, 244, 242]);
 potential.selection.data = array;
 
 const scaling =
-  electron_interaction_parameter(viz_inputs_b.energy_keV * 1e3) /
+  electron_interaction_parameter(viz_inputs_a.energy_keV * 1e3) /
   electron_interaction_parameter(80e3);
 potential = potential.multiply(scaling);
 
@@ -78,7 +78,7 @@ const set_probe_xy = (val) => (probe_xy.value = val);
 const real_space_probe = new ComplexProbe(
   [gpts_x, gpts_y],
   sampling,
-  viz_inputs_b.energy_keV * 1e3,
+  viz_inputs_a.energy_keV * 1e3,
   viz_inputs_b.semiangle,
   viz_inputs_b.defocus,
 ).build();
@@ -163,7 +163,7 @@ function propagator_array(gpts, sampling, energy, dz) {
 const fixed_dz_propagator = propagator_array(
   [gpts_x, gpts_y],
   sampling,
-  viz_inputs_b.energy_keV * 1e3,
+  viz_inputs_a.energy_keV * 1e3,
   20 / 7,
 );
 
@@ -299,36 +299,40 @@ function raster_legend(include, dict, width) {
 const sampling = [0.1, 0.1];
 const use_multislice = false;
 
-const viz_inputs_b = view(
-  Inputs.form({
-    defocus: Inputs.range([-150, 150], {
-      value: 0,
-      step: 5,
-      label: "defocus, Å",
-    }),
-
-    semiangle: Inputs.range([5, 30], {
-      value: 25,
-      step: 0.5,
-      label: "semiangle, mrad",
-    }),
-
-    energy_keV: Inputs.range([60, 300], {
-      value: 80,
-      step: 1,
-      label: "energy, kV",
-    }),
+const viz_inputs_b_sliders = Inputs.form({
+  defocus: Inputs.range([-150, 150], {
+    value: 0,
+    step: 5,
+    label: "defocus, Å",
   }),
-);
 
-const viz_inputs_a = view(
-  Inputs.form({
-    visualization_checkboxes: Inputs.checkbox(
-      ["potential", "probe", "diffraction"],
-      {
-        value: ["potential", "probe", "diffraction"],
-      },
-    ),
+  semiangle: Inputs.range([5, 30], {
+    value: 25,
+    step: 0.5,
+    label: "semiangle, mrad",
   }),
-);
+});
+
+const viz_inputs_b = Generators.input(viz_inputs_b_sliders);
+
+const viz_inputs_a_sliders = Inputs.form({
+  energy_keV: Inputs.range([60, 300], {
+    value: 80,
+    step: 1,
+    label: "energy, kV",
+  }),
+  visualization_checkboxes: Inputs.checkbox(
+    ["potential", "probe", "diffraction"],
+    {
+      value: ["potential", "probe", "diffraction"],
+    },
+  ),
+});
+
+const viz_inputs_a = Generators.input(viz_inputs_a_sliders);
 ```
+
+<div class="grid grid-cols-2">
+  <div> ${viz_inputs_b_sliders} </div>
+  <div> ${viz_inputs_a_sliders} </div>
+</div>

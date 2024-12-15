@@ -184,12 +184,12 @@ const probe_moving = (function () {
 
 const moving_mutable = (function* () {
   if (probe_moving) {
-    if (viz_inputs.visualization_checkboxes.includes("gradient")) {
+    if (viz_inputs_a.visualization_checkboxes.includes("gradient")) {
       let gr_step = gradient_descent(potential_static, probe_xy, 1.0);
       set_gradient_step(gr_step);
 
-      if (viz_inputs.visualization_checkboxes.includes("potential")) {
-        if (viz_inputs.options.includes("object positivity")) {
+      if (viz_inputs_a.visualization_checkboxes.includes("potential")) {
+        if (viz_inputs_b.options.includes("object positivity")) {
           set_potential_static(positivity_constraint(gradient_step));
         } else {
           set_potential_static(gradient_step);
@@ -203,8 +203,8 @@ const moving_mutable = (function* () {
 
 ```js
 const reconstruct_mutable = (function* () {
-  if (viz_inputs.options.includes("reconstruct")) {
-    if (viz_inputs.options.includes("random order")) {
+  if (viz_inputs_b.options.includes("reconstruct")) {
+    if (viz_inputs_b.options.includes("random order")) {
       if (iteration_counter % (25 * 25) == 0) {
         shuffle_order();
       }
@@ -218,11 +218,11 @@ const reconstruct_mutable = (function* () {
       let probe_y = ((index / 25) | 0 % 25) * 4;
       set_reconstruct_xy([probe_x, probe_y]);
     }
-    if (viz_inputs.visualization_checkboxes.includes("probe")) {
+    if (viz_inputs_a.visualization_checkboxes.includes("probe")) {
       set_probe_xy(reconstruct_xy);
     }
     let gr_step = gradient_descent(potential, reconstruct_xy, 1.0);
-    if (viz_inputs.options.includes("object positivity")) {
+    if (viz_inputs_b.options.includes("object positivity")) {
       set_potential(positivity_constraint(gr_step));
     } else {
       set_potential(gr_step);
@@ -237,7 +237,7 @@ const reconstruct_mutable = (function* () {
 ```js
 const reset_mutable = (function* () {
   if (
-    viz_inputs.reset_potential_and_probe_position !=
+    viz_inputs_a.reset_potential_and_probe_position !=
     previous_potential_reset_value
   ) {
     set_mouse_xy(null);
@@ -274,7 +274,7 @@ function return_dp_dictionary(includes_dp) {
 }
 
 const dp_dictionary = return_dp_dictionary(
-  viz_inputs.visualization_checkboxes.includes("diffraction"),
+  viz_inputs_a.visualization_checkboxes.includes("diffraction"),
 );
 ```
 
@@ -300,18 +300,18 @@ function return_probe_dictionary(includes_probe) {
 }
 
 const probe_dictionary = return_probe_dictionary(
-  viz_inputs.visualization_checkboxes.includes("probe"),
+  viz_inputs_a.visualization_checkboxes.includes("probe"),
 );
 ```
 
 ```js
 function return_potential_dictionary(includes_potential) {
   if (includes_potential) {
-    let zero_point = viz_inputs.options.includes("object positivity")
+    let zero_point = viz_inputs_b.options.includes("object positivity")
       ? 0.0
       : potential.min() * 0.75 - 1e-4;
 
-    let cmap = viz_inputs.options.includes("object positivity")
+    let cmap = viz_inputs_b.options.includes("object positivity")
       ? "Magma"
       : "PiYG";
 
@@ -329,7 +329,7 @@ function return_potential_dictionary(includes_potential) {
 }
 
 const potential_dictionary = return_potential_dictionary(
-  viz_inputs.visualization_checkboxes.includes("potential"),
+  viz_inputs_a.visualization_checkboxes.includes("potential"),
 );
 ```
 
@@ -352,7 +352,7 @@ function return_gradient_dictionary(includes_gradient) {
 }
 
 const gradient_dictionary = return_gradient_dictionary(
-  viz_inputs.visualization_checkboxes.includes("gradient"),
+  viz_inputs_a.visualization_checkboxes.includes("gradient"),
 );
 ```
 
@@ -431,22 +431,22 @@ function raster_legend(include, dict, width) {
 <div class="grid grid-cols-2" style="margin-top: 0; margin-bottom: 0;">
 <div class="grid grid-cols-2" style="margin-top: 0; margin-bottom: 0;">
   <div style="max-width: 200px;">
-    ${resize((width) => raster_legend(viz_inputs.visualization_checkboxes.includes("probe"),probe_dictionary, width))}
-    ${resize((width) => raster_plot(viz_inputs.visualization_checkboxes.includes("probe"),true,probe_dictionary, width, width))}
+    ${resize((width) => raster_legend(viz_inputs_a.visualization_checkboxes.includes("probe"),probe_dictionary, width))}
+    ${resize((width) => raster_plot(viz_inputs_a.visualization_checkboxes.includes("probe"),true,probe_dictionary, width, width))}
   </div>
   <div style="max-width: 200px;">
-    ${resize((width) => raster_legend(viz_inputs.visualization_checkboxes.includes("potential"),potential_dictionary, width))}
-    ${resize((width) => raster_plot(viz_inputs.visualization_checkboxes.includes("potential"),true,potential_dictionary, width, width))}
+    ${resize((width) => raster_legend(viz_inputs_a.visualization_checkboxes.includes("potential"),potential_dictionary, width))}
+    ${resize((width) => raster_plot(viz_inputs_a.visualization_checkboxes.includes("potential"),true,potential_dictionary, width, width))}
   </div>
 </div>
 <div class="grid grid-cols-2" style="margin-top: 0; margin-bottom:0;">
   <div style="max-width: 200px;">
-    ${resize((width) => raster_legend(viz_inputs.visualization_checkboxes.includes("diffraction"),dp_dictionary, width))}
-    ${resize((width) => raster_plot(viz_inputs.visualization_checkboxes.includes("diffraction"),false,dp_dictionary, width, width))}
+    ${resize((width) => raster_legend(viz_inputs_a.visualization_checkboxes.includes("diffraction"),dp_dictionary, width))}
+    ${resize((width) => raster_plot(viz_inputs_a.visualization_checkboxes.includes("diffraction"),false,dp_dictionary, width, width))}
   </div>
   <div style="max-width: 200px;">
-    ${resize((width) => raster_legend(viz_inputs.visualization_checkboxes.includes("gradient"),gradient_dictionary, width))}
-    ${resize((width) => raster_plot(viz_inputs.visualization_checkboxes.includes("gradient"),false,gradient_dictionary, width, width))}
+    ${resize((width) => raster_legend(viz_inputs_a.visualization_checkboxes.includes("gradient"),gradient_dictionary, width))}
+    ${resize((width) => raster_plot(viz_inputs_a.visualization_checkboxes.includes("gradient"),false,gradient_dictionary, width, width))}
   </div>
 </div>
 </div>
@@ -454,23 +454,33 @@ function raster_legend(include, dict, width) {
 ```js
 // INPUTS
 
-const viz_inputs = view(
-  Inputs.form({
-    visualization_checkboxes: Inputs.checkbox(
-      ["probe", "potential", "diffraction", "gradient"],
-      {
-        value: ["probe", "potential", "diffraction"],
-      },
-    ),
-    options: Inputs.checkbox(
-      ["reconstruct", "random order", "object positivity"],
-      {
-        value: ["random order", "object positivity"],
-      },
-    ),
-    reset_potential_and_probe_position: Inputs.button(
-      "reset potential and probe position",
-    ),
-  }),
-);
+const viz_inputs_a_sliders = Inputs.form({
+  visualization_checkboxes: Inputs.checkbox(
+    ["probe", "potential", "diffraction", "gradient"],
+    {
+      value: ["probe", "potential", "diffraction"],
+    },
+  ),
+  reset_potential_and_probe_position: Inputs.button(
+    "reset potential and probe position",
+  ),
+});
+
+const viz_inputs_a = Generators.input(viz_inputs_a_sliders);
+
+const viz_inputs_b_sliders = Inputs.form({
+  options: Inputs.checkbox(
+    ["reconstruct", "random order", "object positivity"],
+    {
+      value: ["random order", "object positivity"],
+    },
+  ),
+});
+
+const viz_inputs_b = Generators.input(viz_inputs_b_sliders);
 ```
+
+<div class="grid grid-cols-2">
+  <div> ${viz_inputs_a_sliders}</div>
+  <div> ${viz_inputs_b_sliders}</div>
+</div>
